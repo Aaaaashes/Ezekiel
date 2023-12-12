@@ -9,8 +9,6 @@ void playerUpdate() {
 	player.cam.pitch = clamp(-PI_2 + 0.01, PI_2 - 0.01, player.cam.pitch);
 	player.cam.yaw -= state.window->mouse.delta[0] / ((f32)state.window->dFrame / 45000.0f);
 
-	printf("%f\n", player.cam.pitch);
-
 	perspCamUpdate(&player.cam);
 }
 
