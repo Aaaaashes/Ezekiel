@@ -8,6 +8,7 @@
 
 static inline uint64_t NOW() {
     struct timespec ts;
-    timespec_get(&ts, TIME_UTC);
+    int success = timespec_get(&ts, TIME_UTC);
     return (ts.tv_sec * NSPS + ts.tv_nsec);
+    free(&success);
 }

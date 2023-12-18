@@ -5,7 +5,7 @@
 #include "utils.h"
 #include "error.h"
 
-#define PLACEHOLDER_ID 0xca5cadab1efacade
+#define PLACEHOLDER_ID 0xc0a1e5ce
 
 typedef struct EntitySizeDescriptor {
 	u32 dataSize;
@@ -24,7 +24,8 @@ typedef struct ComponentDataMember {
 } ComponentDataMember, CDM;
 
 typedef struct GlobalComponentDescriptor {
-	u32 cdtSize;
+	u32 cdtLength;
+	u32 id;
 	CDM* dataTable;
 } GlobalComponentDescriptor, GCD;
 
@@ -36,7 +37,7 @@ typedef struct Component {
 
 
 typedef struct Entity {
-	u64 id;
+	u32 id;
 	ESD sizeDesc;
 	void* data;
 	Component* components;
@@ -45,20 +46,32 @@ typedef struct Entity {
 
 typedef struct ECS {
 	u32 entityCount, freeIdCount, idCounter;
-	u32* entities;
+	Entity** entities;
 	u32* freeIds;
 } ECS;
 
 extern ECS ecs;
 
-static u32 getSizeOfComponent(Component component);
+static u32 getSizeOfGCDData(GCD* gcd);
 static u32 getSizeOfComponents(u16 componentCount, Component* components);
 static u32 getSizeOfEntityComponents(Entity entity);
 static u32 getSizeOfEntityData(Entity entity);
 static u32 getSizeOfEntity(Entity entity);
 
-Entity* createEntity(u16 componentCount, Component* components, u32 dataEntryCount, EDM dataEntries);
+static u32 getSizeOfComponent(Component component);
+
+Entity* createEntity(u16 componentCount, Component* components, u32 dataEntryCount, EDM* dataEntries);
 Entity* getEntityById(u32 id);
 
-void addEntity(Entity* entityPtr);
+u32* reallocFreeIds(u32 newSize);
+
+u32 addEntity(Entity* entityPtr);
+
+void removeEntity(Entity* entityPtr);
+
+void freeEntity(Entity* entityPtr);
+
+Component* createComponent(GCD* gcd);
+
+u32 addComponent(Entity* entity, Component* component);
 

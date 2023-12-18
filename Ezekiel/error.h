@@ -8,8 +8,8 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#define UNICODE
-#define _UNICODE
+//#define UNICODE
+//#define _UNICODE
 #endif
 
 
@@ -17,6 +17,6 @@
 
 void displayErrorBox(const char* message);
 
-void assertErr(bool condition, char* message, void (*callback)(), ...);
+void fatalError(const char* message, bool crit, ...);
 
-void fatalError(char* message, ...);
+void assertErr(bool condition, char* message, void (*callback)(), bool crit, ...);

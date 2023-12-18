@@ -10,10 +10,10 @@ u32 shaderCreate(const char* vertexPath, const char* fragmentPath) {
 
 	FILE* vertexFilePtr;
 	fopen_s(&vertexFilePtr, vertexPath, "r");
-	assertErr(vertexFilePtr, "Failed to open vertex shader file.", 0);
+	assertErr(vertexFilePtr, "FATAL::SHADER::VERT::FILE - Failed to open vertex shader file.", 0, true);
 	FILE* fragFilePtr;
 	fopen_s(&fragFilePtr, fragmentPath, "r");
-	assertErr(fragFilePtr, "Failed to open fragment shader file.", 0);
+	assertErr(fragFilePtr, "FATAL::SHADER::FRAG::FILE - Failed to open fragment shader file.", 0, true);
 
 	fseek(vertexFilePtr, 0, SEEK_END);
 	u32 vertexFileSize = ftell(vertexFilePtr);
@@ -27,14 +27,14 @@ u32 shaderCreate(const char* vertexPath, const char* fragmentPath) {
 	if (vertexSource == NULL) {
 		fclose(vertexFilePtr);
 		fclose(fragFilePtr);
-		fatalError("Unable to allocate memory for vertex shader source.");
+		fatalError("FATAL::SHADER::VERT::PREP - Unable to allocate memory for vertex shader source.", true);
 	}
 
 	fragSource = (char*)malloc(fragFileSize + 1);
 	if (fragSource == NULL) {
 		fclose(vertexFilePtr);
 		fclose(fragFilePtr);
-		fatalError("Unable to allocate memory for fragment shader source.");
+		fatalError("FATAL::SHADER::FRAG::PREP - Unable to allocate memory for fragment shader source.", true);
 	}
 
 	// Read the contents of the shader files into their corresponding source memory.
@@ -68,7 +68,7 @@ u32 shaderCreate(const char* vertexPath, const char* fragmentPath) {
 	if (!success)
 	{
 		glGetProgramInfoLog(shader, 512, NULL, infoLog);
-		fatalError("ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s",infoLog);
+		fatalError("ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s",true,infoLog);
 	}
 
 	glDeleteShader(vertex);

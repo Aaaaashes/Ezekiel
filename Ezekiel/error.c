@@ -4,21 +4,21 @@ void displayErrorBox(const char* message) {
 #ifdef _WIN32
 	size_t size = mbstowcs(NULL, message, 0);
 	wchar_t* wideMessage = (wchar_t*)malloc((size + 1) * sizeof(wchar_t));
-	mbstowcs(wideMessage, message, size + 1);
+	size_t outSize;
+	mbstowcs_s(&outSize, wideMessage, size+1, message, size);
 	MessageBoxW(NULL, wideMessage, L"Error", MB_ICONERROR | MB_OK);
 	free(wideMessage);
-#else
-	// For Unix-like systems (inc	luding Linux and macOS), you can use a console message
-	fprintf(stderr, "%s\n", message);
 #endif
+	// For Unix-like systems (including Linux and macOS), you can use a console message
+	fprintf(stderr, "%s\n", message);
 }
 
-void assertErr(bool condition, char* message, void (*callback)(),bool crit, ...) {
+void assertErr(bool condition, char* message, void (*callback)(), bool crit, ...) {
 	if (!condition) {
 		va_list args;
-		va_start(args, callback);
+		va_start(args, crit);
 
-		(*callback)();
+		if (callback) { (*callback)(); }
 
 		fatalError(message, crit, args);
 
@@ -28,7 +28,7 @@ void assertErr(bool condition, char* message, void (*callback)(),bool crit, ...)
 
 void fatalError(const char* message, bool crit, ...) {
 	va_list args;
-	va_start(args, message);
+	va_start(args, crit);
 
 	vfprintf(stderr, message, args); // Print the message to stderr
 

@@ -72,7 +72,7 @@ void createWindow(callback_t init, callback_t destroy, callback_t tick, callback
     window.scrHeight = 1080;
     window.scrWidth = 1920;
 
-    assertErr(glfwInit(), "Failed to init glfw.", 0);
+    assertErr(glfwInit(), "Failed to init glfw.", 0, true);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
@@ -86,7 +86,7 @@ void createWindow(callback_t init, callback_t destroy, callback_t tick, callback
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
     window.handle = glfwCreateWindow(window.scrWidth, window.scrHeight, "3D Engine", NULL, NULL);
-    assertErr(window.handle, "Failed to create window.", glfwTerminate);
+    assertErr(window.handle, "Failed to create window.", glfwTerminate, true);
 
     glfwSetKeyCallback(window.handle, _keyCallback);
     glfwSetMouseButtonCallback(window.handle, _mouseCallback);
@@ -99,7 +99,7 @@ void createWindow(callback_t init, callback_t destroy, callback_t tick, callback
     glfwMakeContextCurrent(window.handle);
     glfwSwapInterval(1);
 
-    assertErr(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialise OpenGL context.", glfwTerminate);
+    assertErr(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialise OpenGL context.", glfwTerminate, true);
 
     windowLoop();
 }

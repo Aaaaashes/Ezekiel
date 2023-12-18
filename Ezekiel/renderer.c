@@ -78,7 +78,7 @@ void initRenderer() {
 	}
 	else
 	{
-		fatalError("Failed to load texture");
+		fatalError("Failed to load texture", false);
 	}
 	texFreeData(&state.renderer.texture1);
 
