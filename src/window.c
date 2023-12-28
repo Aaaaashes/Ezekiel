@@ -59,7 +59,8 @@ static void _resizeCallback() {
 }
 
 
-void createWindow(callback_t init, callback_t destroy, callback_t tick, callback_t update, callback_t render) {
+void createWindow(callback_t init, callback_t destroy, callback_t tick,
+		callback_t update, callback_t render) {
     window.init = init;
     window.destroy = destroy;
     window.tick = tick;
@@ -104,7 +105,7 @@ void createWindow(callback_t init, callback_t destroy, callback_t tick, callback
     windowLoop();
 }
 
-void _init() {
+void _initialize() {
     window.init();
 }
 
@@ -135,7 +136,7 @@ void _render() {
 }
 
 void windowLoop() {
-    _init();
+    _initialize();
 
     while (!glfwWindowShouldClose(window.handle))
     {
@@ -164,7 +165,7 @@ void windowLoop() {
             _tick();
             tickTime -= NSPTICK;
         }
-        window.tickRemainder = max(tickTime, 0);
+        window.tickRemainder = fmax(tickTime, 0);
 
         _update();
         _render();
@@ -172,6 +173,10 @@ void windowLoop() {
         glfwSwapBuffers(window.handle);
         glfwPollEvents();
     }
+
+    GLenum err = glGetError();
+
+    printf("%u\n",err);
 
     _destroy();
     exit(0);

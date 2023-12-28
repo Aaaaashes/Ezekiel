@@ -1,7 +1,6 @@
 #include "player.h"
 #include "state.h"
 
-Window window;
 Player player;
 
 void playerUpdate() {

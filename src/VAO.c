@@ -6,7 +6,7 @@ GLuint vaoCreate() {
 	return vao;
 }
 void vaoDestroy(GLuint vao) {
-	glDeleteVertexArrays(1, vao);
+	glDeleteVertexArrays(1, &vao);
 }
 void vaoBind(u32 vao) {
 	glBindVertexArray(vao);

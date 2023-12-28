@@ -4,7 +4,6 @@
 #include "ecs.h"
 
 State state;
-ECS ecs;
 
 void init() {
 	state.window = &window;

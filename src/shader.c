@@ -8,11 +8,9 @@ u32 shaderCreate(const char* vertexPath, const char* fragmentPath) {
 	char* vertexSource;
 	char* fragSource;
 
-	FILE* vertexFilePtr;
-	fopen_s(&vertexFilePtr, vertexPath, "r");
+	FILE* vertexFilePtr = fopen(vertexPath, "r");
 	assertErr(vertexFilePtr, "FATAL::SHADER::VERT::FILE - Failed to open vertex shader file.", 0, true);
-	FILE* fragFilePtr;
-	fopen_s(&fragFilePtr, fragmentPath, "r");
+	FILE* fragFilePtr = fopen(fragmentPath, "r");
 	assertErr(fragFilePtr, "FATAL::SHADER::FRAG::FILE - Failed to open fragment shader file.", 0, true);
 
 	fseek(vertexFilePtr, 0, SEEK_END);

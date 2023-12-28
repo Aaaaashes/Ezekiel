@@ -1,8 +1,6 @@
 #include "camera.h"
 #include "state.h"
 
-Window window;
-
 void perspCamInit(PerspectiveCamera* self, f32 fov) {
 	memset(self, 0, sizeof(PerspectiveCamera));
     self->fov = fov;

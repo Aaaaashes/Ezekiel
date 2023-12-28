@@ -12,6 +12,6 @@ typedef struct Texture {
 
 void texCreateGl(Texture* tex);
 void texBindGl(Texture tex, u32 texNum);
-void texLoadFromFile(Texture* tex, const char* path);
+void texLoadFromFile(Texture* tex, const char* path, u32 colorMode);
 void texGlLoadData(Texture tex);
 void texFreeData(Texture* tex);
